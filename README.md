@@ -56,23 +56,38 @@ Dalam menyelesaikan permasalahan sistem rekomendasi ini, dua pendekatan utama di
 
 Dataset yang digunakan dalam proyek ini adalah "Cellphones Recommendation Dataset" dari [Kaggle](https://www.kaggle.com/datasets/meirnizri/cellphones-recommendations). Dataset ini terdiri dari tiga file utama:
 
-1. cellphones data.csv
+1. Dataset 1: cellphones data.csv
 
-   Berisi informasi fitur deskriptif dari masing-masing model ponsel, seperti:
-    * model: Nama model ponsel
-    * brand, price, storage, ram, camera, dll.
-    * Fitur-fitur ini akan digunakan untuk membangun sistem content-based recommendation.
+   Berisi data tentang ponsel terpopuler di AS pada tahun 2022, berjumlah 33 baris data dengan 14 kolom :
+    * cellphone_id: ID unik dari ponsel.
+    * model: Nama model ponsel.
+    * brand: Merek dari ponsel.
+    * operating system: Sistem operasi yang digunakan ponsel (iOS/Android).
+    * internal memory: Penyimpanan internal ponsel.
+    * RAM: RAM ponsel.
+    * performance: Nilai kinerja ponsel berdasarkan nilai AnTuTu.
+    * main camera: Besaran piksel pada kamera utama atau kamera belakang.
+    * selfie camera: besaran piksel pada kamera depan.
+    * battery size: Kapasitas baterai (mAh).
+    * screen size: Lebar layar ponsel (inch).
+    * weight: Berat dari ponsel (gram).
+    * price: Harga dari ponsel (USD).
+    * release date: Tanggal keluar atau rilis pertama ponsel.
 
 2. cellphones ratings.csv
 
-   Berisi data rating yang diberikan pengguna terhadap model ponsel, dengan kolom:
+   Berisi data rating yang diberikan pengguna terhadap model ponsel, berjumlah 990 baris data dengan 3 kolom:
     * user_id: ID unik pengguna
     * model: Nama model ponsel
     * rating: Nilai rating (skala 1–10)
 
 3. cellphones users.csv
 
-   Berisi informasi tambahan tentang pengguna (opsional, tidak digunakan secara langsung dalam sistem rekomendasi saat ini).
+   Berisi informasi tambahan tentang pengguna, berjumlah 99 baris data dengan 4 kolom :
+   * user_id : ID unik pengguna
+   * Age: Umur pengguna ponsel
+   * Gender: Jenis kelamin pengguna ponsel
+   * Occupation: Pekerjaan pengguna ponsel
 
 
 ## 🧪 Data Preparation

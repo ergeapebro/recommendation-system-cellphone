@@ -58,7 +58,7 @@ Dataset yang digunakan dalam proyek ini adalah "Cellphones Recommendation Datase
 
 1. Dataset 1: cellphones data.csv
 
-   Berisi data tentang ponsel terpopuler di AS pada tahun 2022, berjumlah 33 baris data dengan 14 kolom :
+   Berisi data tentang ponsel terpopuler di AS pada tahun 2022, dengan variabel-variabel :
     * cellphone_id: ID unik dari ponsel.
     * model: Nama model ponsel.
     * brand: Merek dari ponsel.
@@ -74,20 +74,35 @@ Dataset yang digunakan dalam proyek ini adalah "Cellphones Recommendation Datase
     * price: Harga dari ponsel (USD).
     * release date: Tanggal keluar atau rilis pertama ponsel.
 
-2. cellphones ratings.csv
+2. Datset 2: cellphones ratings.csv
 
-   Berisi data rating yang diberikan pengguna terhadap model ponsel, berjumlah 990 baris data dengan 3 kolom:
+   Berisi data rating yang diberikan pengguna terhadap model ponsel, dengan variabel-variabel :
     * user_id: ID unik pengguna
     * model: Nama model ponsel
     * rating: Nilai rating (skala 1–10)
 
-3. cellphones users.csv
+3. Dataset 3: cellphones users.csv
 
-   Berisi informasi tambahan tentang pengguna, berjumlah 99 baris data dengan 4 kolom :
+   Berisi informasi tambahan tentang pengguna, dengan variabel-variabel :
    * user_id : ID unik pengguna
    * Age: Umur pengguna ponsel
    * Gender: Jenis kelamin pengguna ponsel
    * Occupation: Pekerjaan pengguna ponsel
+
+Untuk memahami data, dilakukan beberapa tahapan yang diperlukan, yaitu:
+1. Cek dimensi data
+   
+   * Pada dataset 1 terdapat 33 jumlah baris data, dengan 14 kolom
+     *  8 kolom bertipe int64 : cellphone_id, internal memory, RAM, main camera, selfie camera, battery size, weight, price
+     *  4 kolom bertipe object: brand, model, operatinf system, release date
+     *  2 kolom bertipe float64 : performance, screen size
+   * Pada dataset 2 terdapat 990 jumlah baris data, dengan 3 kolom
+     * 3 kolom bertipe int64: user_id, model, rating
+   * Pada dataset 3 terdapat 99 jumlah baris data, dengan 4 kolom
+     * 2 kolom bertipe int64: user_id, age
+     * 2 kolom bertipe object: gender, occupation
+
+2. Cek kondisi data
 
 
 ## 🧪 Data Preparation

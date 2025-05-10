@@ -103,29 +103,48 @@ Untuk memahami data, dilakukan beberapa tahapan yang diperlukan, yaitu:
      * 2 kolom bertipe object: gender, occupation
 
 2. Cek kondisi data
+   * Data tidak terdapat duplikat pada ketiga dataset.
+   * Dataset 1 dan 2 tidak terdapat missing value, dataset 3 terdapat missing value pada kolom occupation.
 
+3. Melakukan Exploratory Data Analysis (EDA)
+* Terdapat 10 brand yaitu ['Apple' 'Asus' 'Samsung' 'Google' 'OnePlus' 'Oppo' 'Vivo' 'Xiaomi' 'Sony'
+ 'Motorola']. Model paling paling banyak berasal dari brand Samsung 8 buah, kemudian diikuti Apple 6 buah dan ada Motorola, OnePlus serta Xiaomi dengan jumlah yang sama 4 buah
+* Pada tabel rating, nilai terendah 1 dan nilai terbesar 18. Nilai rating 18 pada dataset ponsel mengindikasikan adanya anomali atau kesalahan, mengingat skala rating yang umum digunakan adalah 1-10 atau 1-5.
+* Pada kolom gender terdapat nilai `select gender` yang seharusnya hanya 2 gender yaitu female dan male, kemungkinan user memilih tidak menyebutkan gendernya. Tetapi pada proyek kali ini variabel tersebut tidak dipergunakan.
 
 ## 🧪 Data Preparation
 
-1. Penggabungan dan Penyelarasan Data
+Penggabungan dan Penyelarasan Data
 
-   Ketiga data yaitu cellphones data.csv, cellphones ratings.csv, dan cellphones users.csv, digabungkan berdasarkan kolom model dan user_id untuk menghasilkan satu dataset utama (full_df) yang digunakan untuk kedua pendekatan sistem rekomendasi
+Ketiga data yaitu cellphones `data.csv`, `cellphones ratings.csv`, dan `cellphones users.csv`, digabungkan berdasarkan kolom `model` dan `user_id` untuk menghasilkan satu dataset utama (`full_df`), yang digunakan untuk kedua pendekatan sistem rekomendasi. Dataset cellphones ratings juga di-join dengan data pengguna dari cellphones users berdasarkan `user_id`.
 
-2. Penggabungan Data Rating dan Pengguna
+### Content-Based Filtering
 
-   Dataset cellphones ratings juga di-join dengan data pengguna dari cellphones users berdasarkan user_id untuk memperkaya informasi seperti usia dan jenis kelamin pengguna.
+Untuk membangun sistem rekomendasi berbasis konten (Content-Based Filtering), sebelumnya data utama (`full_df`) disalin kemudian data disiapkan melalui beberapa tahapan berikut:
+1. Menghitung rata-rata rating per model: Langkah ini menghitung rata-rata rating dari masing-masing produk (`model`), agar dapat digunakan sebagai salah satu informasi relevansi produk dalam hasil rekomendasi.
+2. Menggabungkan informasi rating dengan data produk model: Menggabungkan data rating rata-rata ke dalam dataset utama (`content_df` - salinan `ull_df`) berdasarkan kolom model.
+3. Menghapus duplikasi produk: Beberapa produk mungkin muncul lebih dari sekali dalam dataset. Maka, duplikat dihapus berdasarkan kolom model untuk memastikan tiap produk hanya satu kali muncul.
+4. Membuat fitur gabungan (Combined Features): Fitur gabungan dibentuk dengan menggabungkan kolom-kolom teks dan numerik (yang dikonversi ke `string`) menjadi satu string deskripsi panjang untuk masing-masing produk. Ini digunakan sebagai dasar untuk analisis kesamaan antarproduk. Kolom yang digunakan `['model', 'operating system', 'internal memory', 'RAM', 'performance', 'main camera', 'battery size', 'screen size', 'price']`.
+5. Preprocessing dengan Lemmatization: Setiap deskripsi gabungan difilter dengan proses lemmatization, yaitu mengubah kata ke bentuk dasarnya. Ini membantu dalam generalisasi kata-kata saat membuat representasi teks.
+6. Ekstraksi fitur dengan TF-IDF dan penghitungan Cosine Similarity : Menggunakan **TF-IDF Vectorizer** untuk mengubah teks gabungan menjadi vektor numerik. Parameter yang digunakan yaitu `max_df`, `min_df` dan `ngram_range`. Kemudian, digunakan **cosine similarity** untuk mengukur kemiripan antarproduk berdasarkan representasi vektor **TF-IDF**.
+   * `TfidfVectorizer` digunakan untuk mengubah teks menjadi representasi numerik yang dapat dipahami oleh model machine learning. Ia melakukan ini menggunakan teknik yang disebut TF-IDF (Term Frequency-Inverse Document Frequency). Sederhananya, ini membantu menentukan pentingnya kata dalam sebuah dokumen relatif terhadap kumpulan dokumen.
+   * `cosine_similarity` adalah cara untuk mengukur seberapa mirip dua teks (atau data apa pun yang direpresentasikan sebagai vektor) satu sama lain. Ini didasarkan pada sudut antara vektor yang mewakili teks. Kesamaan kosinus 1 berarti teksnya identik, 0 berarti sama sekali berbeda, dan nilai di antaranya menunjukkan tingkat kesamaan yang bervariasi.
+   * `ngram_range=(1,3)` digunakan agar model mempertimbangkan unigram, bigram, dan trigram.
+   * `max_df=0.8` dan `min_df=0.15` berfungsi sebagai filter: hanya mempertahankan kata-kata yang tidak terlalu umum atau terlalu jarang.
 
-2. Agregasi Rating
+### Collaborative Filterring
 
-   Karena satu model ponsel bisa memiliki banyak rating, dilakukan agregasi dengan cara menghitung rata-rata rating untuk setiap model. Hasil ini digunakan pada pendekatan Content-Based Filtering agar tiap produk memiliki representasi skor tunggal yang lebih stabil.
+Untuk pendekatan Collaborative Filtering, data disiapkan melalui langkah-langkah sebagai berikut:
+1. Persiapan dataset : Data `rating` digunakan sebagai sumber utama yang berisi informasi interaksi antara pengguna (`user_id`) dan produk (`cellphone_id`) beserta nilai `rating`.
+2. Menghitung jumlah user dan produk: Menampilkan jumlah pengguna unik dan jumlah model ponsel unik yang terdapat dalam dataset.
+3. Normalisasi ID : Untuk memudahkan pemrosesan oleh model, ID pengguna dan produk diubah menjadi indeks bilangan bulat berurutan (mulai dari 0), sehingga lebih efisien saat digunakan dalam model Neural Collaborative Filtering.
+4. Konversi tipe data rating : Kolom `rating` dikonversi ke dalam format `float32` agar kompatibel dengan TensorFlow/Keras saat pelatihan model.
+5. Normalisasi skala rating : Rating dinormalisasi ke skala 0–1 menggunakan formula:
 
-4. Pembersihan Duplikasi
-
-   Diperiksa dan dihapus kemungkinan duplikasi data model ponsel dalam dataset setelah proses join dan agregasi.
-
-5. Persiapan Matriks Rating
-
-   Untuk pendekatan Collaborative Filtering, dibuat matriks user-item dari data rating, di mana baris merepresentasikan pengguna dan kolom merepresentasikan model ponsel. Nilai dalam matriks adalah rating dari pengguna terhadap produk tersebut.
+   rating_normalized = (rating - min) / (max - min)
+​
+6. Membuat data input (x) dan target (y): Data input `x` terdiri dari pasangan (`user_id`, `cellphone_id`), dan `y` adalah target rating hasil normalisasi.
+7. Split dataset : Dataset dibagi menjadi Train dan Validation, data dibagi menjadi 80% untuk pelatihan dan 20% untuk validasi. Ini dilakukan agar model dapat dilatih dan dievaluasi tanpa kebocoran data (data leakage).
 
 
 ## 🛠️ Modeling

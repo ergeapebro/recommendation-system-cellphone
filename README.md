@@ -59,27 +59,27 @@ Dataset yang digunakan dalam proyek ini adalah "Cellphones Recommendation Datase
 1. Dataset 1: cellphones data.csv
 
    Berisi data tentang ponsel terpopuler di AS pada tahun 2022, dengan variabel-variabel :
-    * cellphone_id: ID unik dari ponsel.
-    * model: Nama model ponsel.
-    * brand: Merek dari ponsel.
-    * operating system: Sistem operasi yang digunakan ponsel (iOS/Android).
-    * internal memory: Penyimpanan internal ponsel.
-    * RAM: RAM ponsel.
-    * performance: Nilai kinerja ponsel berdasarkan nilai AnTuTu.
-    * main camera: Besaran piksel pada kamera utama atau kamera belakang.
-    * selfie camera: besaran piksel pada kamera depan.
-    * battery size: Kapasitas baterai (mAh).
-    * screen size: Lebar layar ponsel (inch).
-    * weight: Berat dari ponsel (gram).
-    * price: Harga dari ponsel (USD).
-    * release date: Tanggal keluar atau rilis pertama ponsel.
+   * cellphone_id: ID unik dari ponsel.
+   * model: Nama model ponsel.
+   * brand: Merek dari ponsel.
+   * operating system: Sistem operasi yang digunakan ponsel (iOS/Android).
+   * internal memory: Penyimpanan internal ponsel.
+   * RAM: RAM ponsel.
+   * performance: Nilai kinerja ponsel berdasarkan nilai AnTuTu.
+   * main camera: Besaran piksel pada kamera utama atau kamera belakang.
+   * selfie camera: besaran piksel pada kamera depan.
+   * battery size: Kapasitas baterai (mAh).
+   * screen size: Lebar layar ponsel (inch).
+   * weight: Berat dari ponsel (gram).
+   * price: Harga dari ponsel (USD).
+   * release date: Tanggal keluar atau rilis pertama ponsel.
 
 2. Datset 2: cellphones ratings.csv
 
    Berisi data rating yang diberikan pengguna terhadap model ponsel, dengan variabel-variabel :
-    * user_id: ID unik pengguna
-    * model: Nama model ponsel
-    * rating: Nilai rating (skala 1–10)
+   * user_id: ID unik pengguna
+   * model: Nama model ponsel
+   * rating: Nilai rating (skala 1–10)
 
 3. Dataset 3: cellphones users.csv
 
@@ -92,19 +92,19 @@ Dataset yang digunakan dalam proyek ini adalah "Cellphones Recommendation Datase
 Untuk memahami data, dilakukan beberapa tahapan yang diperlukan, yaitu:
 1. Cek dimensi data
    
-   * Pada dataset 1 terdapat 33 jumlah baris data, dengan 14 kolom
-     *  8 kolom bertipe int64 : cellphone_id, internal memory, RAM, main camera, selfie camera, battery size, weight, price
-     *  4 kolom bertipe object: brand, model, operatinf system, release date
-     *  2 kolom bertipe float64 : performance, screen size
-   * Pada dataset 2 terdapat 990 jumlah baris data, dengan 3 kolom
-     * 3 kolom bertipe int64: user_id, model, rating
-   * Pada dataset 3 terdapat 99 jumlah baris data, dengan 4 kolom
-     * 2 kolom bertipe int64: user_id, age
-     * 2 kolom bertipe object: gender, occupation
+* Pada dataset 1 terdapat 33 jumlah baris data, dengan 14 kolom
+   *  8 kolom bertipe int64 : cellphone_id, internal memory, RAM, main camera, selfie camera, battery size, weight, price
+   *  4 kolom bertipe object: brand, model, operatinf system, release date
+   *  2 kolom bertipe float64 : performance, screen size
+* Pada dataset 2 terdapat 990 jumlah baris data, dengan 3 kolom
+   * 3 kolom bertipe int64: user_id, model, rating
+* Pada dataset 3 terdapat 99 jumlah baris data, dengan 4 kolom
+   * 2 kolom bertipe int64: user_id, age
+   * 2 kolom bertipe object: gender, occupation
 
 2. Cek kondisi data
-   * Data tidak terdapat duplikat pada ketiga dataset.
-   * Dataset 1 dan 2 tidak terdapat missing value, dataset 3 terdapat missing value pada kolom occupation.
+* Data tidak terdapat duplikat pada ketiga dataset.
+* Dataset 1 dan 2 tidak terdapat missing value, dataset 3 terdapat missing value pada kolom occupation.
 
 3. Melakukan Exploratory Data Analysis (EDA)
 * Terdapat 10 brand yaitu ['Apple' 'Asus' 'Samsung' 'Google' 'OnePlus' 'Oppo' 'Vivo' 'Xiaomi' 'Sony'

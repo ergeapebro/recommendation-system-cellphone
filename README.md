@@ -187,6 +187,8 @@ Setelah kedua model selesai dibangun, sistem dapat memberikan Top-5 rekomendasi 
 * Content-Based: Rekomendasi 5 produk paling mirip berdasarkan deskripsi atau fitur dari model ponsel yang dipilih pengguna.
 * Collaborative Filtering: Rekomendasi 5 produk dengan rating tertinggi yang diprediksi untuk pengguna tertentu berdasarkan interaksi pengguna lainnya.
 
+Tambahan, training pada model ini menggunakan `Binary Crossentropy` untuk menghitung `loss function`, `Adam` (Adaptive Moment Estimation) sebagai `optimizer` dengan nilai 0.005, dan `root mean squared error` (RMSE) sebagai metrics evaluation, nilai `batch_size` = 32, dan `epochs` = 100.
+
 
 ## 📊 Evaluation
 
@@ -226,7 +228,7 @@ Dengan kata lain, sistem sangat tepat dalam merekomendasikan (tidak salah mereko
 
 ### Collaborative Filtering – Neural Collaborative Filtering
 
-Model Collaborative Filtering menggunakan pendekatan Matrix Factorization dengan arsitektur embedding berbasis neural network. Evaluasi dilakukan dengan metrik Root Mean Squared Error (RMSE) pada data latih dan validasi selama 100 epoch.
+Model Collaborative Filtering menggunakan pendekatan Matrix Factorization dengan arsitektur embedding berbasis neural network. Evaluasi dilakukan dengan metrik Root Mean Squared Error (RMSE) pada data latih dan validasi selama 100 epoch
 
 Root Mean Squared Error (RMSE) digunakan untuk mengukur perbedaan antara nilai rating aktual dan prediksi yang dihasilkan oleh model. Metrik ini cocok untuk regresi karena mempertimbangkan besar kesalahan (error) dalam satuan yang sama dengan target aslinya (rating).
 

@@ -213,9 +213,9 @@ Untuk mengevaluasi performa sistem rekomendasi berbasis konten, digunakan pendek
 
 #### Hasil Evaluasi
 Content-Based Filtering Metrics (with threshold 6):
-Precision: 1.0
-Recall: 0.3333333333333333
-F1-score: 0.5
+* Precision: 1.0
+* Recall: 0.3333333333333333
+* F1-score: 0.5
 
 #### Interpretasi
 * Precision = 1.0 berarti semua item yang direkomendasikan oleh sistem benar-benar disukai pengguna.
@@ -257,6 +257,6 @@ Gambar di atas menunjukkan grafik perkembangan RMSE terhadap epoch pelatihan.
 
 Berdasarkan hasil evaluasi yang telah dilakukan, kesimpulan perbandingan antara kedua pendekatan sistem rekomendasi dengan pendekatan Content-Based Filtering dan Collaborative Filtering. 
 1. Content-Based Filtering sangat selektif, tapi cenderung terlalu berhati-hati sehingga kehilangan beberapa rekomendasi yang relevan. Model ini cocok jika tujuan utamanya adalah menghindari rekomendasi yang salah, tetapi kurang bagus dalam menangkap semua preferensi pengguna. Content-Based Filtering tetap bermanfaat, terutama untuk user/item baru (cold-start), namun dalam hal akurasi prediksi, CF lebih unggul.
-2. Collaborative filtering lebih fleksibel dalam mengenali pola preferensi pengguna, dan hasil prediksi rating-nya relatif akurat. Model ini cocok untuk skenario dengan banyak data interaksi dan ketika konten produk tidak terlalu informatif. Collaborative Filtering menunjukkan performa yang lebih unggul secara metrik RMSE dan kemungkinan besar precision/recall pada top-N juga lebih baik, karena model mampu mempelajari pola rating antar pengguna dan item.
+2. Collaborative Filtering lebih fleksibel dalam mengenali pola preferensi pengguna, dan hasil prediksi rating-nya relatif akurat. Model ini cocok untuk skenario dengan banyak data interaksi dan ketika konten produk tidak terlalu informatif. Collaborative Filtering menunjukkan performa yang lebih unggul secara metrik RMSE dan kemungkinan besar precision/recall pada top-N juga lebih baik, karena model mampu mempelajari pola rating antar pengguna dan item.
   
 Jika ingin rekomendasi yang sangat presisi dan berbasis fitur produk, maka content-based cocok. Tapi untuk sistem yang mampu menangkap preferensi pengguna secara keseluruhan, collaborative filtering menawarkan performa yang lebih seimbang dan fleksibel.

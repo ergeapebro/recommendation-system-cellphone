@@ -151,7 +151,7 @@ Untuk pendekatan Collaborative Filtering, data disiapkan melalui langkah-langkah
 
 Dalam tahap ini, dua pendekatan sistem rekomendasi diterapkan untuk menyelesaikan permasalahan: Content-Based Filtering dan Collaborative Filtering. Setiap pendekatan menggunakan algoritma yang berbeda dan menghasilkan output rekomendasi dalam bentuk Top-N recommendation untuk pengguna atau produk.
 
-**1. Content-Based Filtering**
+#### 1. Content-Based Filtering
 
 Pada pendekatan ini, sistem merekomendasikan produk berdasarkan kemiripan antar produk, tanpa mempertimbangkan perilaku pengguna lain. Fitur produk diproses menggunakan metode TF-IDF (Term Frequency–Inverse Document Frequency) yang diambil dari atribut description atau fitur-fitur tekstual lainnya. Kemudian, digunakan cosine similarity untuk menghitung tingkat kemiripan antar produk. Model ini akan memberikan rekomendasi produk yang paling mirip berdasarkan model ponsel yang telah dilihat atau disukai pengguna.
 
@@ -165,7 +165,7 @@ Kekurangan:
 * Tidak mempertimbangkan selera atau preferensi pengguna lain.
 * Tidak bisa merekomendasikan produk jika semua fiturnya kosong/missing.
 
-**2. Collaborative Filtering (Neural Collaborative Filtering)**
+### 2. Collaborative Filtering (Neural Collaborative Filtering)
 
 Pendekatan kedua dalam sistem rekomendasi ini adalah Collaborative Filtering berbasis Neural Network (NCF). Berbeda dari content-based yang mengandalkan fitur produk, collaborative filtering menggunakan interaksi historis antara pengguna dan produk. Model ini dibangun menggunakan TensorFlow/Keras dan memanfaatkan teknik embedding untuk merepresentasikan user dan item (ponsel) dalam bentuk vektor laten. 
 
@@ -174,12 +174,12 @@ Tahapan membangun model rekomendasi dengan mendefinisikan sebuah kelas yang dise
 Model ini belajar dari interaksi antara pengguna dan item (`rating`) untuk memprediksi rating yang mungkin diberikan pengguna terhadap produk tertentu, lalu merekomendasikan produk dengan prediksi rating tertinggi. Model NCF dilatih menggunakan embedding layer untuk pengguna dan item, digabungkan dengan beberapa dense layer, dan dioptimasi menggunakan fungsi loss `root_mean_squared_error`.
 
 Kelebihan:
-* Dapat menangkap pola kompleks antara pengguna dan produk.
+* Mampu menangkap pola kompleks antara user dan item tanpa membutuhkan fitur konten.
 * Mampu memberikan rekomendasi personalisasi berdasarkan riwayat interaksi pengguna.
 
 Kekurangan:
-* Butuh jumlah data rating yang cukup untuk performa optimal.
-* Rentan terhadap masalah cold-start, terutama pengguna atau item baru.
+* Membutuhkan banyak data interaksi pengguna untuk hasil yang akurat.
+* Tidak dapat merekomendasikan produk baru yang belum memiliki interaksi (cold-start problem).
 
 **Output: Top-N Recommendation**
 
@@ -192,47 +192,71 @@ Setelah kedua model selesai dibangun, sistem dapat memberikan Top-5 rekomendasi 
 
 Metrik evaluasi yang digunakan untuk mengevaluasi performa kedua pendekatan sistem rekomendasi, digunakan metrik yang sesuai dengan masing-masing metode:
 
-1. **Content-Based Filtering – TF-IDF & Cosine Similarity**
+### Content-Based Filtering
 
-Metrik Evaluasi:
-  * Cosine Similarity : digunakan untuk mengukur kemiripan antara produk berdasarkan fitur teks. Metrik ini mengukur sudut antara dua vektor representasi produk (semakin kecil sudut, semakin mirip).
+Untuk mengevaluasi performa sistem rekomendasi berbasis konten, digunakan pendekatan label biner berdasarkan threshold rating. Tujuannya adalah mengukur apakah sistem merekomendasikan item yang relevan (rating tinggi) dan menghindari item yang tidak relevan (rating rendah).
 
-Formula Cosine Similarity:
-![Formula Cosine Similarity](/content/drive/MyDrive/Colab Notebooks/rumus cosine.png)
+#### Pendekatan Evaluasi
 
-* A dan 𝐵: vektor representasi dari dua produk
-* Nilai cosine similarity berkisar antara 0 hingga 1, di mana nilai mendekati 1 menunjukkan kemiripan tinggi.
+1. Threshold Rating:
+   * Digunakan nilai ambang batas `6` dari skala rating 1–10.
+   * Rating di atas atau sama dengan 6 dianggap *positif* (relevan).
+2. Label Biner:
+   * `1` jika rating aktual ≥ 6 (positif), `0` jika tidak.
+   * `1` jika produk direkomendasikan oleh sistem, `0` jika tidak.
+3. Evaluasi dilakukan untuk satu pengguna tertentu (`user_id = 258`), dengan membandingkan item yang telah dinilai dengan daftar rekomendasi berbasis konten.
 
-Hasil Evaluasi:
+#### Metrik evaluasi menggunakan tiga metrik utama:
+1. Precision: Proporsi item yang direkomendasikan dan benar-benar relevan.
+2. Recall: Proporsi item relevan yang berhasil direkomendasikan.
+3. F1-Score: Harmonik rata-rata antara precision dan recall.
 
-Evaluasi dilakukan secara kualitatif dengan memeriksa apakah produk yang direkomendasikan benar-benar relevan atau serupa dengan produk favorit pengguna. Hasil menunjukkan bahwa sistem berhasil merekomendasikan produk yang sejenis dari sisi tipe dan merek.
+#### Hasil Evaluasi
+Content-Based Filtering Metrics (with threshold 6):
+Precision: 1.0
+Recall: 0.3333333333333333
+F1-score: 0.5
 
-2. Collaborative Filtering – Neural Collaborative Filtering
-  Metrik Evaluasi:
-   * Root Mean Squared Error (RMSE) : RMSE digunakan untuk mengukur perbedaan antara nilai rating aktual dan prediksi yang dihasilkan oleh model. Metrik ini cocok untuk regresi karena mempertimbangkan besar kesalahan (error) dalam satuan yang sama dengan target aslinya (rating).
+#### Interpretasi
+* Precision = 1.0 berarti semua item yang direkomendasikan oleh sistem benar-benar disukai pengguna.
+* Recall = 0.33 berarti hanya sepertiga dari item relevan yang berhasil direkomendasikan oleh sistem.
+* F1-score = 0.5 menunjukkan keseimbangan moderat antara precision dan recall.
+
+Dengan kata lain, sistem sangat tepat dalam merekomendasikan (tidak salah merekomendasikan), tetapi belum cukup luas cakupannya (tidak semua item relevan berhasil direkomendasikan).
+
+### Collaborative Filtering – Neural Collaborative Filtering
+
+Model Collaborative Filtering menggunakan pendekatan Matrix Factorization dengan arsitektur embedding berbasis neural network. Evaluasi dilakukan dengan metrik Root Mean Squared Error (RMSE) pada data latih dan validasi selama 100 epoch.
+
+Root Mean Squared Error (RMSE) digunakan untuk mengukur perbedaan antara nilai rating aktual dan prediksi yang dihasilkan oleh model. Metrik ini cocok untuk regresi karena mempertimbangkan besar kesalahan (error) dalam satuan yang sama dengan target aslinya (rating).
 
 Formula RMSE:
 
 ![rumus rmse](https://github.com/user-attachments/assets/82978cad-dc32-48a3-b505-981f612e0654)
 
-Hasil Evaluasi:
+#### Visualisasi Hasil
 
-Dari grafik RMSE selama 100 epoch, diperoleh tren penurunan error yang cukup baik pada data pelatihan dan data validasi, walaupun terdapat sedikit overfitting di akhir training. Pada akhir pelatihan:
-* RMSE Data Training: ~0.10
-* RMSE Data Validasi: ~0.16
+![image](https://github.com/user-attachments/assets/4c78994f-3baf-4b7d-a34f-20473e2c2dbc)
 
-Nilai RMSE yang rendah ini menunjukkan bahwa model mampu memprediksi rating pengguna terhadap produk dengan akurasi yang cukup tinggi.
+
+Gambar di atas menunjukkan grafik perkembangan RMSE terhadap epoch pelatihan.
+* Sumbu X: Jumlah epoch (iterasi pelatihan)
+* Sumbu Y: Nilai RMSE
+* Garis Biru: RMSE pada data train
+* Garis Oranye: RMSE pada data test (validasi)
+
+#### Analisis
+* Gambar menunjukkan tren penurunan RMSE pada data training dan validasi seiring bertambahnya epoch.
+* Model mencapai konvergensi yang stabil di akhir training. Ini mengindikasikan bahwa model tidak mengalami overfitting yang signifikan.
+* Tidak terdapat tanda overfitting ekstrem, karena perbedaan RMSE train dan test cukup stabil setelah konvergen.
+* Final RMSE on Validation Set: 0.2754, RMSE di bawah 0.3 tergolong sangat baik untuk model rekomendasi berbasis rating prediktif.
+* Model mampu mempelajari representasi pengguna dan item secara efisien melalui layer embedding dan meminimalkan error secara konsisten.
 
 
 ## ✅ Kesimpulan
-Pada proyek ini, telah dibangun dan dibandingkan dua pendekatan sistem rekomendasi berbasis data:
-1. Content-Based Filtering menggunakan teknik TF-IDF dan cosine similarity untuk merekomendasikan produk ponsel berdasarkan kemiripan fitur deskriptif produk.
-2. Collaborative Filtering menggunakan pendekatan Neural Collaborative Filtering (RecommenderNet) dengan pemodelan embedding pengguna dan produk, untuk memprediksi interaksi berdasarkan histori.
 
-Berdasarkan hasil evaluasi:
-* Pendekatan Collaborative Filtering menunjukkan performa yang lebih baik secara kuantitatif dengan RMSE 0.17–0.19, mencerminkan akurasi yang baik dalam memprediksi preferensi pengguna.
-* Pendekatan Content-Based Filtering tetap memiliki keunggulan dalam mengatasi masalah cold-start untuk produk baru, serta tidak memerlukan histori interaksi dari pengguna.
-
-Insight
-* Kombinasi kedua pendekatan dalam bentuk hybrid recommendation system berpotensi memberikan performa yang lebih seimbang antara akurasi dan cakupan rekomendasi.
-* Penambahan informasi lebih lanjut seperti kategori produk, harga, atau ulasan pengguna bisa meningkatkan kualitas sistem rekomendasi di masa depan.
+Berdasarkan hasil evaluasi yang telah dilakukan, kesimpulan perbandingan antara kedua pendekatan sistem rekomendasi dengan pendekatan Content-Based Filtering dan Collaborative Filtering. 
+1. Content-Based Filtering sangat selektif, tapi cenderung terlalu berhati-hati sehingga kehilangan beberapa rekomendasi yang relevan. Model ini cocok jika tujuan utamanya adalah menghindari rekomendasi yang salah, tetapi kurang bagus dalam menangkap semua preferensi pengguna. Content-Based Filtering tetap bermanfaat, terutama untuk user/item baru (cold-start), namun dalam hal akurasi prediksi, CF lebih unggul.
+2. Collaborative filtering lebih fleksibel dalam mengenali pola preferensi pengguna, dan hasil prediksi rating-nya relatif akurat. Model ini cocok untuk skenario dengan banyak data interaksi dan ketika konten produk tidak terlalu informatif. Collaborative Filtering menunjukkan performa yang lebih unggul secara metrik RMSE dan kemungkinan besar precision/recall pada top-N juga lebih baik, karena model mampu mempelajari pola rating antar pengguna dan item.
+  
+Jika ingin rekomendasi yang sangat presisi dan berbasis fitur produk, maka content-based cocok. Tapi untuk sistem yang mampu menangkap preferensi pengguna secara keseluruhan, collaborative filtering menawarkan performa yang lebih seimbang dan fleksibel.

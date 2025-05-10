@@ -153,21 +153,25 @@ Dalam tahap ini, dua pendekatan sistem rekomendasi diterapkan untuk menyelesaika
 
 **1. Content-Based Filtering**
 
-Pada pendekatan ini, sistem merekomendasikan produk berdasarkan kemiripan antar produk, tanpa mempertimbangkan perilaku pengguna lain. Fitur produk diproses menggunakan metode TF-IDF (Term Frequency–Inverse Document Frequency) yang diambil dari atribut description atau fitur-fitur tekstual lainnya.
-Kemudian, digunakan cosine similarity untuk menghitung tingkat kemiripan antar produk. Model ini akan memberikan rekomendasi produk yang paling mirip berdasarkan model ponsel yang telah dilihat atau disukai pengguna.
+Pada pendekatan ini, sistem merekomendasikan produk berdasarkan kemiripan antar produk, tanpa mempertimbangkan perilaku pengguna lain. Fitur produk diproses menggunakan metode TF-IDF (Term Frequency–Inverse Document Frequency) yang diambil dari atribut description atau fitur-fitur tekstual lainnya. Kemudian, digunakan cosine similarity untuk menghitung tingkat kemiripan antar produk. Model ini akan memberikan rekomendasi produk yang paling mirip berdasarkan model ponsel yang telah dilihat atau disukai pengguna.
 
 Kelebihan:
 * Tidak membutuhkan data rating pengguna lain (tidak rentan terhadap cold-start user).
 * Cocok untuk merekomendasikan item baru yang belum memiliki banyak rating.
+* Dapat memberikan rekomendasi pada produk baru selama fitur kontennya tersedia.
 
 Kekurangan:
 * Hanya bisa merekomendasikan item yang mirip dengan yang sudah dikenal.
 * Tidak mempertimbangkan selera atau preferensi pengguna lain.
+* Tidak bisa merekomendasikan produk jika semua fiturnya kosong/missing.
 
 **2. Collaborative Filtering (Neural Collaborative Filtering)**
-Pendekatan ini menggunakan teknik Neural Collaborative Filtering (NCF) yang dibangun dengan arsitektur neural network. Model ini belajar dari interaksi antara pengguna dan item (rating) untuk memprediksi rating yang mungkin diberikan pengguna terhadap produk tertentu, lalu merekomendasikan produk dengan prediksi rating tertinggi.
 
-Model NCF dilatih menggunakan embedding layer untuk pengguna dan item, digabungkan dengan beberapa dense layer, dan dioptimasi menggunakan fungsi loss `root_mean_squared_error`.
+Pendekatan kedua dalam sistem rekomendasi ini adalah Collaborative Filtering berbasis Neural Network (NCF). Berbeda dari content-based yang mengandalkan fitur produk, collaborative filtering menggunakan interaksi historis antara pengguna dan produk. Model ini dibangun menggunakan TensorFlow/Keras dan memanfaatkan teknik embedding untuk merepresentasikan user dan item (ponsel) dalam bentuk vektor laten. 
+
+Tahapan membangun model rekomendasi dengan mendefinisikan sebuah kelas yang disebut `RecommenderNet`, yang merupakan inti dari sistem rekomendasi collaborative filtering. Kelas ini dibangun menggunakan TensorFlow/Keras. Dengan mengambil embeddings dan bias, ia mengambil vektor embedding dan bias untuk pengguna dan ponsel yang diberikan dari lapisan embedding. Kemudian menghitung interaksi antara pengguna dan ponsel menggunakan perkalian dot (`tf.tensordot`). Ini menangkap seberapa besar pengguna mungkin menyukai ponsel tersebut. Selanjutnya penggabungan dengan menambahkan bias pengguna dan bias ponsel ke istilah interaksi. Terakhir menerapkan fungsi aktivasi sigmoid (`tf.nn.sigmoid`) untuk menghasilkan prediksi dalam rentang 0 hingga 1, yang merepresentasikan rating yang diprediksi (setelah normalisasi).
+
+Model ini belajar dari interaksi antara pengguna dan item (`rating`) untuk memprediksi rating yang mungkin diberikan pengguna terhadap produk tertentu, lalu merekomendasikan produk dengan prediksi rating tertinggi. Model NCF dilatih menggunakan embedding layer untuk pengguna dan item, digabungkan dengan beberapa dense layer, dan dioptimasi menggunakan fungsi loss `root_mean_squared_error`.
 
 Kelebihan:
 * Dapat menangkap pola kompleks antara pengguna dan produk.

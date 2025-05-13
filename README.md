@@ -206,18 +206,18 @@ Tambahan, training pada model ini menggunakan `Binary Crossentropy` untuk menghi
 
 ### ⭐ Mendapatkan Rekomendasi Ponsel
 
-#### 📱 Content-Based Filtering (Mirip dengan "10 Pro")
+#### 1. 📱 Content-Based Filtering (Mirip dengan "10 Pro")
 ![image](https://github.com/user-attachments/assets/662cc3d7-074a-4988-873a-5fd20a08b636)
 
 Menampilkan 5 rekomendasi ponsel berdasarkan kemiripan konten (fitur seperti model/brand) terhadap model "10 Pro, yang bertujuan untuk memberikan rekomendasi ponsel yang mirip dengan satu produk tertentu berdasarkan fitur.
 
-#### 🤖 Collaborative Filtering (User-Based Recommendation)
+#### 2. 🤖 Collaborative Filtering (User-Based Recommendation)
 
 ![image](https://github.com/user-attachments/assets/7d87ef73-974e-4f80-9702-1e3e9147d977)
 
 Menampilkan rekomendasi ponsel untuk user ID tertentu (di sini: user 1). Tujuannya yaitu memberikan rekomendasi berdasarkan kesamaan perilaku pengguna, yaitu berdasarkan rating user serupa.
 
-#### 🧾 Get 10 Phone Recommendations
+#### 3. 🧾 Get 10 Phone Recommendations
 ![image](https://github.com/user-attachments/assets/d3f1dc79-49e3-4ab0-9770-5c34cdc26cc8)
 
 Menampilkan 10 ponsel dengan average rating tertinggi dari seluruh pengguna, dengan metode ranking global berdasarkan rata-rata rating. Bertujuan untuk menunjukkan produk-produk paling disukai oleh semua pengguna secara umum. Ponsel seperti iPhone 13, iPhone 13 Pro, dan iPhone Mini merupakan 3 ponsel dengan rating tertinggi.

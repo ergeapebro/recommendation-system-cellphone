@@ -118,11 +118,11 @@ Untuk memahami data, dilakukan beberapa tahapan yang diperlukan, yaitu:
 
    Ketiga data yaitu cellphones `data.csv`, `cellphones ratings.csv`, dan `cellphones users.csv`, digabungkan berdasarkan kolom `model` dan `user_id` untuk menghasilkan satu dataset utama (`full_df`), yang digunakan untuk kedua pendekatan sistem rekomendasi. Dataset cellphones ratings juga di-join dengan data pengguna dari cellphones users berdasarkan `user_id`.
 
-2. Mengubah kolom 'release date' yang sebelumnya object menjadi datetime
+2. Mengubah kolom 'release date' yang sebelumnya object menjadi datetime.
    
 4. Menangani anomali nilai rating
 
-   Terdapat nilai rating 18 pada dataset ponsel mengindikasikan adanya anomali atau kesalahan, mengingat skala rating yang umum digunakan adalah 1-10 atau 1-5. Untuk mnegatasi hal tersebut, dilakukan perhitungan rata-rata rating dari model terkait, lalu menggantikan anomali rating dengan nilai rata-rata tersebut.
+   Terdapat nilai rating 18 pada dataset ponsel mengindikasikan adanya anomali atau kesalahan, mengingat skala rating yang umum digunakan adalah 1-10 atau 1-5. Untuk mengatasi hal tersebut, dilakukan perhitungan rata-rata rating dari model terkait, lalu menggantikan anomali rating dengan nilai rata-rata tersebut.
 
 5. Menangani karakter non-breaking space
 
@@ -269,7 +269,7 @@ Gambar di atas menunjukkan grafik perkembangan RMSE terhadap epoch pelatihan.
 * Final RMSE on Validation Set: 0.2754, RMSE di bawah 0.3 tergolong sangat baik untuk model rekomendasi berbasis rating prediktif.
 * Model mampu mempelajari representasi pengguna dan item secara efisien melalui layer embedding dan meminimalkan error secara konsisten.
 
-## ⭐ Mendapatkan Rekomendasi
+## ⭐ Mendapatkan Rekomendasi Ponsel
 
 ### 📱 Content-Based Filtering (Mirip dengan "10 Pro")
 ![image](https://github.com/user-attachments/assets/662cc3d7-074a-4988-873a-5fd20a08b636)
@@ -282,13 +282,13 @@ Menampilkan 5 rekomendasi ponsel berdasarkan kemiripan konten (fitur seperti mod
 
 Menampilkan rekomendasi ponsel untuk user ID tertentu (di sini: user 1). Tujuannya yaitu memberikan rekomendasi berdasarkan kesamaan perilaku pengguna, yaitu berdasarkan rating user serupa.
 
-### 🧾 Top 10 Phones Berdasarkan Rating Tertinggi
+### 🧾 Get 10 Phone Recommendations
 ![image](https://github.com/user-attachments/assets/d3f1dc79-49e3-4ab0-9770-5c34cdc26cc8)
 
 Menampilkan 10 ponsel dengan average rating tertinggi dari seluruh pengguna, dengan metode ranking global berdasarkan rata-rata rating. Bertujuan untuk menunjukkan produk-produk paling disukai oleh semua pengguna secara umum. Ponsel seperti iPhone 13, iPhone 13 Pro, dan iPhone Mini merupakan 3 ponsel dengan rating tertinggi.
 
 
-## ✅ Kesimpulan
+## ✅ Conclusion
 
 Berdasarkan hasil evaluasi yang telah dilakukan, kesimpulan perbandingan antara kedua pendekatan sistem rekomendasi dengan pendekatan Content-Based Filtering dan Collaborative Filtering. 
 1. Content-Based Filtering sangat selektif, tapi cenderung terlalu berhati-hati sehingga kehilangan beberapa rekomendasi yang relevan. Model ini cocok jika tujuan utamanya adalah menghindari rekomendasi yang salah, tetapi kurang bagus dalam menangkap semua preferensi pengguna. Content-Based Filtering tetap bermanfaat, terutama untuk user/item baru (cold-start), namun dalam hal akurasi prediksi, CF lebih unggul.

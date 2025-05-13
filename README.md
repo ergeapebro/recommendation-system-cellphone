@@ -114,9 +114,24 @@ Untuk memahami data, dilakukan beberapa tahapan yang diperlukan, yaitu:
 
 ## 🧪 Data Preparation
 
-Penggabungan dan Penyelarasan Data
+1. Penggabungan dan Penyelarasan Data
 
-Ketiga data yaitu cellphones `data.csv`, `cellphones ratings.csv`, dan `cellphones users.csv`, digabungkan berdasarkan kolom `model` dan `user_id` untuk menghasilkan satu dataset utama (`full_df`), yang digunakan untuk kedua pendekatan sistem rekomendasi. Dataset cellphones ratings juga di-join dengan data pengguna dari cellphones users berdasarkan `user_id`.
+   Ketiga data yaitu cellphones `data.csv`, `cellphones ratings.csv`, dan `cellphones users.csv`, digabungkan berdasarkan kolom `model` dan `user_id` untuk menghasilkan satu dataset utama (`full_df`), yang digunakan untuk kedua pendekatan sistem rekomendasi. Dataset cellphones ratings juga di-join dengan data pengguna dari cellphones users berdasarkan `user_id`.
+
+2. Mengubah kolom 'release date' yang sebelumnya object menjadi datetime
+   
+4. Menangani anomali nilai rating
+
+   Terdapat nilai rating 18 pada dataset ponsel mengindikasikan adanya anomali atau kesalahan, mengingat skala rating yang umum digunakan adalah 1-10 atau 1-5. Untuk mnegatasi hal tersebut, dilakukan perhitungan rata-rata rating dari model terkait, lalu menggantikan anomali rating dengan nilai rata-rata tersebut.
+
+5. Menangani karakter non-breaking space
+
+   Non-breaking space (karakter \xa0 dalam representasi Python) adalah karakter spasi khusus yang mencegah pemisahan baris otomatis pada posisi spasi tersebut. Karakter ini sering digunakan dalam tipografi untuk menjaga agar elemen-elemen tertentu tetap bersama, seperti angka dan satuannya ("10 kg"). Untuk mengatasinya perlu membersihkan data dengan menghapus karakter \xa0 dari nama model 'Pixel 6 Pro\xa0', ada dua cara:
+   * Mengganti karakter \xa0 dengan spasi biasa -> `full_df['model'] = full_df['model'].str.replace(u'\xa0', u' ')`
+   * Menghapus semua karakter whitespace (termasuk \xa0) di awal dan akhir string -> `full_df['model'] = full_df['model'].str.strip()`
+   * Yang digunakan pada proyek ini yaitu cara kedua.  Ini bisa berguna jika ada spasi atau masalah pemformatan lain yang tidak diinginkan dalam data.
+
+Setelah melakukan data preparation secara umum diatas, selanjutnya dilakukan `.copy()` digunakan untuk membuat salilnan data sebelum dilakukan data preparation masing-masing model, yang bertujuan agar dataset asli tetap aman. Kemudian mengurutkan data salinan berdasarkan ID ponsel.
 
 ### Content-Based Filtering
 

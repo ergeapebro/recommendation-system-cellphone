@@ -205,7 +205,7 @@ Setelah kedua model selesai dibangun, sistem dapat memberikan Top-5 rekomendasi 
 Tambahan, training pada model ini menggunakan `Binary Crossentropy` untuk menghitung `loss function`, `Adam` (Adaptive Moment Estimation) sebagai `optimizer` dengan nilai 0.005, dan `root mean squared error` (RMSE) sebagai metrics evaluation, nilai `batch_size` = 32, dan `epochs` = 100.
 
 
-## 📊 Evaluation
+## 📈 Evaluation
 
 Metrik evaluasi yang digunakan untuk mengevaluasi performa kedua pendekatan sistem rekomendasi, digunakan metrik yang sesuai dengan masing-masing metode:
 
@@ -268,6 +268,24 @@ Gambar di atas menunjukkan grafik perkembangan RMSE terhadap epoch pelatihan.
 * Tidak terdapat tanda overfitting ekstrem, karena perbedaan RMSE train dan test cukup stabil setelah konvergen.
 * Final RMSE on Validation Set: 0.2754, RMSE di bawah 0.3 tergolong sangat baik untuk model rekomendasi berbasis rating prediktif.
 * Model mampu mempelajari representasi pengguna dan item secara efisien melalui layer embedding dan meminimalkan error secara konsisten.
+
+## ⭐ Mendapatkan Rekomendasi
+
+### 📱 Content-Based Filtering (Mirip dengan "10 Pro")
+![image](https://github.com/user-attachments/assets/662cc3d7-074a-4988-873a-5fd20a08b636)
+
+Menampilkan 5 rekomendasi ponsel berdasarkan kemiripan konten (fitur seperti model/brand) terhadap model "10 Pro, yang bertujuan untuk memberikan rekomendasi ponsel yang mirip dengan satu produk tertentu berdasarkan fitur.
+
+### 🤖 Collaborative Filtering (User-Based Recommendation)
+
+![image](https://github.com/user-attachments/assets/7d87ef73-974e-4f80-9702-1e3e9147d977)
+
+Menampilkan rekomendasi ponsel untuk user ID tertentu (di sini: user 1). Tujuannya yaitu memberikan rekomendasi berdasarkan kesamaan perilaku pengguna, yaitu berdasarkan rating user serupa.
+
+### 🧾 Top 10 Phones Berdasarkan Rating Tertinggi
+![image](https://github.com/user-attachments/assets/d3f1dc79-49e3-4ab0-9770-5c34cdc26cc8)
+
+Menampilkan 10 ponsel dengan average rating tertinggi dari seluruh pengguna, dengan metode ranking global berdasarkan rata-rata rating. Bertujuan untuk menunjukkan produk-produk paling disukai oleh semua pengguna secara umum. Ponsel seperti iPhone 13, iPhone 13 Pro, dan iPhone Mini merupakan 3 ponsel dengan rating tertinggi.
 
 
 ## ✅ Kesimpulan

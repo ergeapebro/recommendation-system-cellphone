@@ -168,7 +168,13 @@ Dalam tahap ini, dua pendekatan sistem rekomendasi diterapkan untuk menyelesaika
 
 #### 1. Content-Based Filtering
 
-Pada pendekatan ini, sistem merekomendasikan produk berdasarkan kemiripan antar produk, tanpa mempertimbangkan perilaku pengguna lain. Fitur produk diproses menggunakan metode TF-IDF (Term Frequency–Inverse Document Frequency) yang diambil dari atribut description atau fitur-fitur tekstual lainnya. Kemudian, digunakan cosine similarity untuk menghitung tingkat kemiripan antar produk. Model ini akan memberikan rekomendasi produk yang paling mirip berdasarkan model ponsel yang telah dilihat atau disukai pengguna.
+Pada pendekatan ini, sistem merekomendasikan produk berdasarkan kemiripan antar produk, tanpa mempertimbangkan perilaku pengguna lain. Fitur produk diproses menggunakan metode TF-IDF (Term Frequency–Inverse Document Frequency) yang diambil dari atribut description atau fitur-fitur tekstual lainnya. Kemudian, digunakan Cosine Similarity untuk menghitung tingkat kemiripan antar produk. Cosine similarity dirumuskan sebagai berikut.
+
+![rumus similarity](https://github.com/user-attachments/assets/6f556d18-2b81-4961-8a6c-8832e4698b9b)
+
+Cosine similarity pada Python menghitung kesamaan sebagai dot product yang dinormalisasi dari masukan sampel X dan Y. Kita akan menggunakan sklearn cosine_similarity untuk mendapatkan nilai cosinus dua vektor dalam matriks. 
+
+Model ini (Content-Based Filtering) akan memberikan rekomendasi produk yang paling mirip berdasarkan model ponsel yang telah dilihat atau disukai pengguna. Adapun kelebihan dan kekurangan dari model Content-Based Filtering sebagai berikut :
 
 Kelebihan:
 * Tidak membutuhkan data rating pengguna lain (tidak rentan terhadap cold-start user).
